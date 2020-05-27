@@ -1,6 +1,7 @@
 package com.magulab.test.ui.main.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,9 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.magulab.test.R
 import com.magulab.test.common.inflate
+import com.magulab.test.network.data.ExchangeRateData
 import kotlinx.android.synthetic.main.fragment_currency_calculation.*
 
 
@@ -38,7 +39,7 @@ class CurrencyCalculationFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.requestItems()
+        viewModel.initData()
     }
 
     override fun onDestroyView() {
@@ -54,7 +55,8 @@ class CurrencyCalculationFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        viewModel.bindItemList().observe(viewLifecycleOwner, Observer<List<String>> { newItems ->
+        viewModel.bindExchangeRates().observe(viewLifecycleOwner, Observer<ExchangeRateData> { newItems ->
+            Log.i("TEST", newItems.toString())
         })
     }
 }

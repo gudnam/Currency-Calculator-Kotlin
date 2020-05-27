@@ -1,6 +1,7 @@
 package com.magulab.test.network
 
 import android.util.Log
+import com.magulab.test.network.data.ExchangeRateData
 import com.magulab.test.network.retrofit.RetrofitRestAPI
 import com.magulab.test.network.retrofit.RetrofitService
 import io.reactivex.Single
@@ -20,7 +21,7 @@ object RestAPI {
         TIMEOUT
     ).getService()
 
-    fun requestGetExchangeRate(): Single<String> {
+    fun requestGetExchangeRate(): Single<ExchangeRateData> {
         return service.requestGetExchangeRates(getKey())
     }
 }
