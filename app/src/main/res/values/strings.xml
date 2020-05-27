@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">환율 계산</string>
+    <string name="title">환율 계산</string>
+    <string name="content1">송금국가 :</string>
+    <string name="content2">수취국가 :</string>
+    <string name="usd">미국(USD)</string>
+    <string name="krw">한국(KRW)</string>
+    <string name="jpy">일본(JPY)</string>
+    <string name="php">필리핀(PHP)</string>
+</resources>
