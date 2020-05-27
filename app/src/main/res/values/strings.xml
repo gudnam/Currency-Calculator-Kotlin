@@ -3,6 +3,10 @@
     <string name="title">환율 계산</string>
     <string name="content1">송금국가 :</string>
     <string name="content2">수취국가 :</string>
+    <string name="content3">환율 :</string>
+    <string name="content4">조회시간 :</string>
+    <string name="content5">송금액 :</string>
+    <string name="remittance_unit">USD</string>
     <string name="usd">미국(USD)</string>
     <string name="krw">한국(KRW)</string>
     <string name="jpy">일본(JPY)</string>

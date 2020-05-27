@@ -34,10 +34,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
-            android:text="미국(USD)"
+            android:text="@string/usd"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_exchange_rate"
+            style="@style/ContentDynamicTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0,000.00 KRW / USD"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_remittance_country"
+            app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/tv_inquiry_time"
+            style="@style/ContentDynamicTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2020-05-27 18:02"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/tv_remittance_country"
+            app:layout_constraintTop_toTopOf="@+id/textView4" />
 
         <TextView
             android:id="@+id/textView2"
@@ -47,8 +67,65 @@
             android:layout_marginTop="10dp"
             android:text="@string/content2"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/ContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/content3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@id/textView2" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/ContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/content4"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@id/textView3" />
+
+        <TextView
+            android:id="@+id/textView5"
+            style="@style/ContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/content5"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+        <TextView
+            android:id="@+id/textView7"
+            style="@style/ContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수취금액은 000,000.00 KRW 입니다"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/ContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/remittance_unit"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/et_remittance"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -58,5 +135,18 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView2"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="@id/textView2" />
+
+        <EditText
+            android:id="@+id/et_remittance"
+            android:layout_width="113dp"
+            android:layout_height="0dp"
+            android:background="@drawable/edittext_frame"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:textAlignment="textEnd"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView5"
+            app:layout_constraintStart_toStartOf="@+id/tv_remittance_country"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
