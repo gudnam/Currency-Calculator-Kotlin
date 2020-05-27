@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,7 +40,7 @@ class CurrencyCalculationFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.initData()
+        viewModel.initData(Country.fromInt(spinner.selectedItemPosition))
     }
 
     override fun onDestroyView() {
@@ -52,11 +53,23 @@ class CurrencyCalculationFragment : Fragment() {
         val adapter = ArrayAdapter(context!!, R.layout.currency_spinner_item, items)
         adapter.setDropDownViewResource(R.layout.currency_spinner_dropdown_item)
         spinner.adapter = adapter
+        spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.initData(Country.fromInt(position))
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
+        }
     }
 
     private fun bindViewModel() {
-        viewModel.bindExchangeRates().observe(viewLifecycleOwner, Observer<ExchangeRateData> { newItems ->
-            Log.i("TEST", newItems.toString())
+        viewModel.bindExchangeRates().observe(viewLifecycleOwner, Observer<String> {
+            tv_exchange_rate.text = it
         })
     }
 }
