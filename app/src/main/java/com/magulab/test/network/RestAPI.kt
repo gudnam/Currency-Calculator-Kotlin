@@ -1,20 +1,26 @@
 package com.magulab.test.network
 
+import android.util.Log
 import com.magulab.test.network.retrofit.RetrofitRestAPI
 import com.magulab.test.network.retrofit.RetrofitService
 import io.reactivex.Single
 
 object RestAPI {
 
-    private val BASE_URL = "http://10.0.2.2:5001/magulab/us-central1/"
+    private val BASE_URL = "http://www.apilayer.net/"
     private val TIMEOUT = 10L
+
+    init {
+        System.loadLibrary("keys");
+    }
+    private external fun getKey(): String
 
     private val service: RetrofitService = RetrofitRestAPI(
         BASE_URL,
         TIMEOUT
     ).getService()
 
-    fun requestGetHouseholdAppliances(): Single<List<String>> {
-        return service.requestGetHouseholdAppliances()
+    fun requestGetExchangeRate(): Single<String> {
+        return service.requestGetExchangeRates(getKey())
     }
 }
