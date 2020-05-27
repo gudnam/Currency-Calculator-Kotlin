@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.magulab.test.common.convertTimeStampToDateTime
+import com.magulab.test.common.price
 import com.magulab.test.network.RestAPI
 import com.magulab.test.network.data.ExchangeRateData
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,15 +38,16 @@ class CurrencyCalculationViewModel: ViewModel() {
                 ExchangeRateData(hashMapOf(), 0)
             }
             .subscribe { result ->
-                Log.i("TEST", "${result.timestamp.convertTimeStampToDateTime()}")
+                Log.i("TEST", "${result.quotes}")
                 exchangeRate.value = getExchangeRate(parseExchangeRate(result, country), country)
                 inquiryTime.value = result.timestamp.convertTimeStampToDateTime()
             }
             .addTo(disposable)
     }
 
-    fun getExchangeRate(value: Float, country: Country): String {
-         return "$value ${when (country) {
+    fun getExchangeRate(value: Double?, country: Country): String {
+        var price = value?.price()
+        return "$price ${when (country) {
             Country.Korea -> {
                 "KRW / USD"
             }
@@ -70,8 +72,8 @@ class CurrencyCalculationViewModel: ViewModel() {
     fun parseExchangeRate(
         data: ExchangeRateData,
         country: Country
-    ): Float {
-        val result: Double? = when (country) {
+    ): Double? {
+        val result = when (country) {
             Country.Korea -> {
                 data.quotes[CountryCode.Korea.code]
             }
@@ -82,6 +84,6 @@ class CurrencyCalculationViewModel: ViewModel() {
                 data.quotes[CountryCode.Philippines.code]
             }
         }
-        return kotlin.math.floor((result?.toFloat() ?: 0.0f) * 100) / 100
+        return result
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.format.DateTimeFormatter
@@ -23,4 +24,9 @@ fun Long.convertTimeStampToDateTime(): String {
     val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     val output = formatter.format(parser.parse(DateTimeFormatter.ISO_INSTANT.format(Instant.ofEpochSecond(this))))
     return "$output"
+}
+
+fun Double.price(): String {
+    val formatter = DecimalFormat("###,###.00")
+    return formatter.format(this)
 }
