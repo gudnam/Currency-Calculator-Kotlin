@@ -11,4 +11,6 @@
     <string name="krw">한국(KRW)</string>
     <string name="jpy">일본(JPY)</string>
     <string name="php">필리핀(PHP)</string>
+    <string name="amount_received_message1">수취금액은</string>
+
 </resources>

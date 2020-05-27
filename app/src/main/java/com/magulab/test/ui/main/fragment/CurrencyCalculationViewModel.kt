@@ -11,7 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import java.sql.Timestamp
 
 class CurrencyCalculationViewModel: ViewModel() {
 
@@ -21,11 +20,13 @@ class CurrencyCalculationViewModel: ViewModel() {
 
     private var exchangeRate = MutableLiveData<String>()
     private var inquiryTime = MutableLiveData<String>()
+    private var amountReceived = MutableLiveData<String>()
 
     fun bindExchangeRates() = exchangeRate
     fun bindInquiryTime() = inquiryTime
+    fun bindAmountReceived() = amountReceived
 
-    fun initData(country: Country) {
+    fun initData(usd: Int, country: Country) {
         RestAPI.requestGetExchangeRate()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -38,9 +39,9 @@ class CurrencyCalculationViewModel: ViewModel() {
                 ExchangeRateData(hashMapOf(), 0)
             }
             .subscribe { result ->
-                Log.i("TEST", "${result.quotes}")
                 exchangeRate.value = getExchangeRate(parseExchangeRate(result, country), country)
                 inquiryTime.value = result.timestamp.convertTimeStampToDateTime()
+                amountReceived.value = getAmountReceivedMessage(usd, parseExchangeRate(result, country), country)
             }
             .addTo(disposable)
     }
@@ -65,25 +66,44 @@ class CurrencyCalculationViewModel: ViewModel() {
         disposable.dispose()
     }
 
-    fun calculate(remittance: Int, exchangeRate: Float): Float {
-        return exchangeRate*remittance
-    }
-
     fun parseExchangeRate(
         data: ExchangeRateData,
         country: Country
     ): Double? {
-        val result = when (country) {
+        return when (country) {
             Country.Korea -> {
-                data.quotes[CountryCode.Korea.code]
+                data.quotes[CountryCodeWithUSD.Korea.code]
             }
             Country.Japan -> {
-                data.quotes[CountryCode.Japan.code]
+                data.quotes[CountryCodeWithUSD.Japan.code]
             }
             Country.Philippines -> {
-                data.quotes[CountryCode.Philippines.code]
+                data.quotes[CountryCodeWithUSD.Philippines.code]
             }
         }
-        return result
+    }
+
+    fun textChanged(usd: Int, country: Country) {
+        initData(usd, country)
+    }
+
+    fun getAmountReceivedMessage(usd: Int, exchangeRate: Double?, country: Country): String? {
+        if (usd == 0) return "송금액을 입력해 주세요"
+
+        val calculated: Double = exchangeRate?.times(usd) ?: 0.00
+        val price = calculated.price()
+        val countryCode = when (country) {
+            Country.Korea -> {
+                CountryCode.Korea.code
+            }
+            Country.Japan -> {
+                CountryCode.Japan.code
+            }
+            Country.Philippines -> {
+                CountryCode.Philippines.code
+            }
+
+        }
+        return "수취금액은 $price $countryCode 입니다"
     }
 }

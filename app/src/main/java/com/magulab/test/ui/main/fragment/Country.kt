@@ -11,8 +11,13 @@ enum class Country(val number: Int) {
         fun fromInt(value: Int) = Country.values().first { it.number == value }
     }
 }
-enum class CountryCode(val code: String) {
+enum class CountryCodeWithUSD(val code: String) {
     Korea("USDKRW"),
     Japan("USDJPY"),
-    Philippines("USDPHP")
+    Philippines("USDPHP");
+}
+enum class CountryCode(val code: String) {
+    Korea("KRW"),
+    Japan("JPY"),
+    Philippines("PHP");
 }

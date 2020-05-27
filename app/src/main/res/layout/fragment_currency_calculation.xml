@@ -102,13 +102,12 @@
             app:layout_constraintTop_toBottomOf="@id/textView4" />
 
         <TextView
-            android:id="@+id/textView7"
-            style="@style/ContentTextView"
+            android:id="@+id/tv_amount_received"
+            style="@style/ContentDynamicTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="수취금액은 000,000.00 KRW 입니다"
+            android:layout_marginTop="100dp"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

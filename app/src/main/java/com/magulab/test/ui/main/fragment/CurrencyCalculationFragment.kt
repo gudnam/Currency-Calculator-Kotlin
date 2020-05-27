@@ -1,7 +1,8 @@
 package com.magulab.test.ui.main.fragment
 
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.magulab.test.R
 import com.magulab.test.common.inflate
-import com.magulab.test.network.data.ExchangeRateData
 import kotlinx.android.synthetic.main.fragment_currency_calculation.*
+import java.lang.NumberFormatException
 
 
 class CurrencyCalculationFragment : Fragment() {
@@ -36,11 +37,17 @@ class CurrencyCalculationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initView()
+        setEvent()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.initData(Country.fromInt(spinner.selectedItemPosition))
+        var remittance = try {
+            et_remittance.text.toString().toInt()
+        } catch (e: NumberFormatException) {
+            0
+        }
+        viewModel.initData(remittance, Country.fromInt(spinner.selectedItemPosition))
     }
 
     override fun onDestroyView() {
@@ -53,6 +60,9 @@ class CurrencyCalculationFragment : Fragment() {
         val adapter = ArrayAdapter(context!!, R.layout.currency_spinner_item, items)
         adapter.setDropDownViewResource(R.layout.currency_spinner_dropdown_item)
         spinner.adapter = adapter
+    }
+
+    private fun setEvent() {
         spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -60,11 +70,31 @@ class CurrencyCalculationFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                viewModel.initData(Country.fromInt(position))
+                var remittance = try {
+                    et_remittance.text.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    0
+                }
+                viewModel.initData(remittance, Country.fromInt(position))
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) { }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        val textWatcher = object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                var usd = try {
+                    s.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    0
+                }
+                viewModel.textChanged(usd, Country.fromInt(spinner.selectedItemPosition))
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        et_remittance.addTextChangedListener(textWatcher)
     }
 
     private fun bindViewModel() {
@@ -73,6 +103,9 @@ class CurrencyCalculationFragment : Fragment() {
         })
         viewModel.bindInquiryTime().observe(viewLifecycleOwner, Observer<String> {
             tv_inquiry_time.text = it
+        })
+        viewModel.bindAmountReceived().observe(viewLifecycleOwner, Observer<String> {
+            tv_amount_received.text = it
         })
     }
 }
