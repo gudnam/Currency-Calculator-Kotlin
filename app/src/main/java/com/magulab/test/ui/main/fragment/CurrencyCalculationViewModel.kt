@@ -3,12 +3,14 @@ package com.magulab.test.ui.main.fragment
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.magulab.test.common.convertTimeStampToDateTime
 import com.magulab.test.network.RestAPI
 import com.magulab.test.network.data.ExchangeRateData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
+import java.sql.Timestamp
 
 class CurrencyCalculationViewModel: ViewModel() {
 
@@ -17,8 +19,10 @@ class CurrencyCalculationViewModel: ViewModel() {
     var disposable = CompositeDisposable()
 
     private var exchangeRate = MutableLiveData<String>()
+    private var inquiryTime = MutableLiveData<String>()
 
     fun bindExchangeRates() = exchangeRate
+    fun bindInquiryTime() = inquiryTime
 
     fun initData(country: Country) {
         RestAPI.requestGetExchangeRate()
@@ -30,10 +34,12 @@ class CurrencyCalculationViewModel: ViewModel() {
             .unsubscribeOn(Schedulers.io())
             .onErrorReturn {
                 Log.e(TAG, "onErrorReturn : " + it.message)
-                ExchangeRateData(hashMapOf())
+                ExchangeRateData(hashMapOf(), 0)
             }
             .subscribe { result ->
+                Log.i("TEST", "${result.timestamp.convertTimeStampToDateTime()}")
                 exchangeRate.value = getExchangeRate(parseExchangeRate(result, country), country)
+                inquiryTime.value = result.timestamp.convertTimeStampToDateTime()
             }
             .addTo(disposable)
     }

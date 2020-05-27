@@ -44,7 +44,6 @@
             style="@style/ContentDynamicTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0,000.00 KRW / USD"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/tv_remittance_country"
             app:layout_constraintTop_toTopOf="@+id/textView3" />
@@ -54,7 +53,6 @@
             style="@style/ContentDynamicTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2020-05-27 18:02"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/tv_remittance_country"
             app:layout_constraintTop_toTopOf="@+id/textView4" />

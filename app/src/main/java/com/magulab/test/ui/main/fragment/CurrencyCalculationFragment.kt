@@ -71,5 +71,8 @@ class CurrencyCalculationFragment : Fragment() {
         viewModel.bindExchangeRates().observe(viewLifecycleOwner, Observer<String> {
             tv_exchange_rate.text = it
         })
+        viewModel.bindInquiryTime().observe(viewLifecycleOwner, Observer<String> {
+            tv_inquiry_time.text = it
+        })
     }
 }

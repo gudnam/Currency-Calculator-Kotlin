@@ -36,7 +36,7 @@ class CurrencyCalculationTest {
         val exceptedUsdjpy: Float = 107.55f
         val exceptedUsdphp: Float = 50.52f
 
-        val data = ExchangeRateData(hashMapOf(Pair("USDKRW", usdkrw), Pair("USDJPY", usdjpy), Pair("USDPHP", usdphp)))
+        val data = ExchangeRateData(hashMapOf(Pair("USDKRW", usdkrw), Pair("USDJPY", usdjpy), Pair("USDPHP", usdphp)), 0)
         assertEquals(exceptedUsdkrw, viewModel.parseExchangeRate(data, Country.Korea))
         assertEquals(exceptedUsdjpy, viewModel.parseExchangeRate(data, Country.Japan))
         assertEquals(exceptedUsdphp, viewModel.parseExchangeRate(data, Country.Philippines))
